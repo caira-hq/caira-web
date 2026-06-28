@@ -19,6 +19,7 @@ import {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 const APP_BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const API_KEY = process.env.NEXT_PUBLIC_CAIRA_API_KEY;
 
 // ─── Steps shown during payment processing ───────────────────────────────────
 const STEPS = [
@@ -162,7 +163,12 @@ export default function CheckoutPage({ params }) {
 
   // ── 1. Fetch invoice on mount ──
   useEffect(() => {
-    fetch(`${API_BASE}/invoices/${code}`)
+    fetch(`${API_BASE}/invoices/${code}`, {
+      headers: {
+              "Content-Type": "application/json",
+              ...(API_KEY ? { "x-api-key": API_KEY } : {}),
+            }
+    })
       .then((r) => r.json())
       .then((res) => {
         if (!res.success) throw new Error(res.message);

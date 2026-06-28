@@ -1,4 +1,5 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_KEY = process.env.NEXT_PUBLIC_CAIRA_API_KEY;
 
 /**
  * Wrapper fetch dengan error handling terpusat.
@@ -10,6 +11,7 @@ async function apiFetch(path, { body, token, ...rest } = {}) {
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(API_KEY ? { "x-api-key": API_KEY } : {}),
       ...(rest.headers || {}),
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
