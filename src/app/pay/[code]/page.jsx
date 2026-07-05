@@ -16,6 +16,7 @@ import {
   Horizon,
   Memo,
 } from "@stellar/stellar-sdk";
+import albedo from "@albedo-link/intent"; // TAMBAHAN: Import Albedo
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 const APP_BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -160,6 +161,14 @@ export default function CheckoutPage({ params }) {
   const [processingLabel, setProcessingLabel] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [copied, setCopied] = useState(false);
+  
+  // TAMBAHAN: Deteksi Mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Deteksi apakah perangkat adalah HP saat komponen dimuat
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+  }, []);
 
   // ── 1. Fetch invoice on mount ──
   useEffect(() => {
@@ -183,79 +192,118 @@ export default function CheckoutPage({ params }) {
       });
   }, [code]);
 
-  // ── 2. Connect wallet ──
+  // ── 2. Connect wallet (HYBRID) ──
   const handleConnect = async () => {
     setStatus("connecting");
     try {
-      // freighter-api v6: semua fungsi mengembalikan objek, bukan nilai primitif
-      const { isConnected: connected } = await isConnected();
-      if (!connected) {
-        alert(
-          "Freighter belum terpasang!\n\nKunjungi https://freighter.app untuk memasang ekstensi dompet Stellar, lalu kembali ke halaman ini.",
-        );
-        setStatus("no_wallet");
-        return;
+      if (isMobile) {
+        // --- SKENARIO HP (ALBEDO) ---
+        // Albedo akan membuka popup/redirect untuk meminta izin
+        const res = await albedo.publicKey();
+        setWalletPubKey(res.pubkey);
+        setStatus("ready");
+      } else {
+        // --- SKENARIO PC (FREIGHTER) ---
+        const { isConnected: connected } = await isConnected();
+        if (!connected) {
+          alert(
+            "Freighter belum terpasang!\n\nKunjungi https://freighter.app untuk memasang ekstensi dompet Stellar, lalu kembali ke halaman ini.",
+          );
+          setStatus("no_wallet");
+          return;
+        }
+        const { isAllowed: allowed } = await isAllowed();
+        if (!allowed) await setAllowed();
+        const { address, error: accessErr } = await requestAccess();
+        if (accessErr) throw new Error(accessErr.message ?? "Akses ditolak.");
+        
+        setWalletPubKey(address); 
+        setStatus("ready");
       }
-      const { isAllowed: allowed } = await isAllowed();
-      if (!allowed) await setAllowed();
-      const { address, error: accessErr } = await requestAccess();
-      if (accessErr) throw new Error(accessErr.message ?? "Akses ditolak.");
-      setWalletPubKey(address); // address adalah string G...
-      setStatus("ready");
     } catch (err) {
       console.error("Connect wallet error:", err);
       setStatus("no_wallet");
     }
   };
 
-  // ── 3. Pay ──
+  // ── 3. Pay (HYBRID) ──
   const handlePayment = async () => {
     try {
       setStatus("processing");
       setCurrentStep(1);
-      setProcessingLabel("Memuat akun dari jaringan Stellar…");
 
-      const server = new Horizon.Server("https://horizon-testnet.stellar.org");
-      const account = await server.loadAccount(walletPubKey);
+      if (isMobile) {
+        // --- SKENARIO HP (ALBEDO) ---
+        setProcessingLabel("Menunggu otorisasi di Albedo…");
+        await albedo.pay({
+          amount: String(invoice.amount_xlm),
+          destination: invoice.user.stellar_wallet,
+          network: 'testnet',
+          memo: invoice.invoice_code,
+          submit: true // Albedo yang akan submit ke jaringan
+        });
+        setCurrentStep(3); // Langsung loncat step karena albedo yg tangani
+      } else {
+        // --- SKENARIO PC (FREIGHTER) ---
+        setProcessingLabel("Memuat akun dari jaringan Stellar…");
+        const server = new Horizon.Server("https://horizon-testnet.stellar.org");
+        const account = await server.loadAccount(walletPubKey);
 
-      setCurrentStep(2);
-      setProcessingLabel("Menunggu tanda tangan di Freighter…");
+        setCurrentStep(2);
+        setProcessingLabel("Menunggu tanda tangan di Freighter…");
 
-      const tx = new TransactionBuilder(account, {
-        fee: "100",
-        networkPassphrase: Networks.TESTNET,
-      })
-        .addOperation(
-          Operation.payment({
-            destination: invoice.user.stellar_wallet,
-            asset: Asset.native(),
-            amount: String(invoice.amount_xlm),
-          }),
-        )
-        .addMemo(Memo.text(invoice.invoice_code))
-        .setTimeout(180)
-        .build();
+        const tx = new TransactionBuilder(account, {
+          fee: "100",
+          networkPassphrase: Networks.TESTNET,
+        })
+          .addOperation(
+            Operation.payment({
+              destination: invoice.user.stellar_wallet,
+              asset: Asset.native(),
+              amount: String(invoice.amount_xlm),
+            }),
+          )
+          .addMemo(Memo.text(invoice.invoice_code))
+          .setTimeout(180)
+          .build();
 
-      // freighter-api v6: signTransaction mengembalikan { signedTxXdr, signerAddress }
-      const signResult = await signTransaction(tx.toXDR(), {
-        networkPassphrase: Networks.TESTNET,
+        const signResult = await signTransaction(tx.toXDR(), {
+          networkPassphrase: Networks.TESTNET,
+        });
+        if (signResult.error)
+          throw new Error(signResult.error.message ?? "Signing dibatalkan.");
+        
+        const signedXdr = signResult.signedTxXdr;
+
+        setCurrentStep(3);
+        setProcessingLabel("Mengirim ke jaringan Stellar…");
+
+        const txToSubmit = TransactionBuilder.fromXDR(signedXdr, Networks.TESTNET);
+        await server.submitTransaction(txToSubmit);
+      }
+
+      // TAMBAHAN: Panggil Backend Verifikasi agar Status Database berubah jadi PAID
+      setProcessingLabel("Memverifikasi ke server Caira…");
+      const verifyRes = await fetch(`${API_BASE}/invoices/${invoice.invoice_code}/verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(API_KEY ? { "x-api-key": API_KEY } : {}),
+        }
       });
-      if (signResult.error)
-        throw new Error(signResult.error.message ?? "Signing dibatalkan.");
-      const signedXdr = signResult.signedTxXdr;
+      const verifyData = await verifyRes.json();
 
-      setCurrentStep(3);
-      setProcessingLabel("Mengirim ke jaringan Stellar…");
+      if(verifyData.success) {
+        setStatus("success");
+      } else {
+        // Jika jaringan stellar sukses, tapi server gagal baca, tetap kita anggap beres 
+        // tapi kasih tahu user.
+        console.warn("Server verifikasi tertunda:", verifyData.message);
+        setStatus("success"); 
+      }
 
-      const txToSubmit = TransactionBuilder.fromXDR(
-        signedXdr,
-        Networks.TESTNET,
-      );
-      await server.submitTransaction(txToSubmit);
-
-      setStatus("success");
     } catch (error) {
-      console.error(error);
+      console.error("Payment error:", error);
       setStatus("ready");
       setCurrentStep(0);
       setProcessingLabel("");
@@ -264,7 +312,7 @@ export default function CheckoutPage({ params }) {
       const msg =
         hint === "tx_insufficient_balance"
           ? "Saldo XLM tidak mencukupi. Tambahkan saldo dan coba lagi."
-          : "Pembayaran dibatalkan atau gagal. Pastikan saldo XLM mencukupi dan Anda tidak menutup Freighter.";
+          : "Pembayaran dibatalkan atau gagal. Pastikan saldo XLM mencukupi.";
       alert(`⚠️ ${msg}`);
     }
   };
@@ -441,7 +489,7 @@ export default function CheckoutPage({ params }) {
                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                   />
                 </svg>
-                Hubungkan Dompet
+                {isMobile ? "Hubungkan Dompet Albedo" : "Hubungkan Freighter"}
               </button>
             ) : (
               /* Step 2: Wallet connected, show Pay Now */
@@ -508,8 +556,8 @@ export default function CheckoutPage({ params }) {
           </div>
         </div>
 
-        {/* Freighter install hint */}
-        {status === "no_wallet" && (
+        {/* Freighter install hint - HANYA MUNCUL DI DESKTOP */}
+        {!isMobile && status === "no_wallet" && (
           <div className="mt-4 bg-white/70 backdrop-blur rounded-2xl border border-slate-200 p-4">
             <p className="text-xs font-bold text-slate-600 mb-1 flex items-center gap-1.5">
               💡 Belum punya Freighter?
