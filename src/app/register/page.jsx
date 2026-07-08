@@ -4,6 +4,7 @@ import { useState } from "react";
 import { isConnected, requestAccess } from "@stellar/freighter-api";
 import { api } from "../../lib/api";
 import { shortWallet } from "../../lib/auth";
+import Link from "next/link";
 
 // ── Inline SVG icons ─────────────────────────────────────────────────────────
 
@@ -250,12 +251,12 @@ export default function RegisterPage() {
               <strong className="text-slate-700">{displayName}</strong>! Silakan
               masuk untuk mulai menggunakan dashboard Anda.
             </p>
-            <a
+            <Link
               href="/login"
               className="block w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition text-sm text-center shadow-lg shadow-indigo-200"
             >
               Masuk Sekarang →
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -401,12 +402,12 @@ export default function RegisterPage() {
         {/* Bottom link */}
         <p className="text-center text-sm text-slate-500 mt-5">
           Sudah punya akun?{" "}
-          <a
+          <Link
             href="/login"
             className="text-indigo-600 font-semibold hover:underline"
           >
             Masuk di sini
-          </a>
+          </Link>
         </p>
       </div>
     </div>

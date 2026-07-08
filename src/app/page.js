@@ -1,29 +1,41 @@
+import Image from "next/image";
+import Link from "next/link";
+
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex flex-col">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto w-full">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-indigo-600 rounded-xl flex items-center justify-center">
-            <span className="text-white font-black text-sm">C</span>
-          </div>
-          <span className="font-bold text-slate-800 text-lg">Caira</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="/login"
-            className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
-          >
-            Masuk
-          </a>
-          <a
-            href="/register"
-            className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl transition-colors"
-          >
-            Daftar Gratis
-          </a>
-        </div>
-      </nav>
+            
+            {/* Bagian Logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <Image 
+                src="/logo.png" 
+                alt="Caira Logo" 
+                width={200} // Saya perbesar sedikit agar lebih proporsional dengan teks
+                height={200} 
+              />
+
+            </Link>
+      
+            {/* Bagian Tombol Navigasi */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
+              >
+                Masuk
+              </Link>
+              <Link
+                href="/register"
+                className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl transition-colors shadow-sm"
+              >
+                Daftar Gratis
+              </Link>
+            </div>
+            
+          </nav>
 
       {/* Hero */}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
@@ -49,7 +61,7 @@ export default function Home() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-3 mb-16">
-          <a
+          <Link
             href="/register"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-base hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200"
           >
@@ -67,13 +79,13 @@ export default function Home() {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               />
             </svg>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/login"
             className="inline-flex items-center justify-center px-6 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 font-semibold text-base hover:border-indigo-300 hover:text-indigo-600 transition-all"
           >
             Sudah Punya Akun
-          </a>
+          </Link>
         </div>
 
         {/* Feature cards */}

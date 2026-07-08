@@ -9,6 +9,9 @@ import {
   patchInvoiceStatus,
   shortWallet,
 } from "../../lib/auth";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -582,7 +585,7 @@ export default function DashboardPage() {
 
               {/* Links */}
               <div className="pt-1">
-                <a
+                <Link
                   href="https://laboratory.stellar.org/#account-creator?network=test"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -602,8 +605,8 @@ export default function DashboardPage() {
                     />
                   </svg>
                   Isi Saldo Testnet (gratis)
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://stellar.expert/explorer/testnet"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -623,7 +626,7 @@ export default function DashboardPage() {
                     />
                   </svg>
                   Lihat Transaksi di Explorer
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -643,42 +646,47 @@ export default function DashboardPage() {
 
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          {/* Logo + Testnet badge — keduanya di kiri */}
-          <a href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 bg-indigo-600 rounded-xl flex items-center justify-center shadow shadow-indigo-200">
-              <span className="text-white font-black text-sm select-none">
-                C
-              </span>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+              
+              {/* Bagian Kiri: Logo + Testnet badge */}
+              <Link href="/" className="flex items-center gap-2 shrink-0">
+                <Image 
+                  src="/logo.png" 
+                  alt="Caira Logo" 
+                  width={66} // Diubah dari 100 ke 36 agar muat di navbar
+                  height={66}
+                  className="object-contain"
+                />
+                <span className="text-xs font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full ml-1">
+                  Testnet
+                </span>
+              </Link>
+      
+              {/* Bagian Kanan: Nama + Avatar (Klik buka profile) */}
+              <button
+                onClick={() => setProfileOpen(true)}
+                className="flex items-center gap-2.5 hover:bg-slate-50 rounded-2xl px-3 py-1.5 transition group"
+                aria-label="Lihat profil"
+              >
+                <div className="hidden sm:flex flex-col items-end leading-tight">
+                  {/* Tambahkan optional chaining (?) untuk berjaga-jaga jika data user telat dimuat */}
+                  <span className="text-sm font-semibold text-slate-800 group-hover:text-indigo-600 transition">
+                    {auth?.user?.display_name}
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    {shortWallet(auth?.user?.stellar_wallet)}
+                  </span>
+                </div>
+                
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow shadow-indigo-200 ring-2 ring-white group-hover:ring-indigo-200 transition">
+                  <span className="text-white font-bold text-sm select-none">
+                    {initials}
+                  </span>
+                </div>
+              </button>
+      
             </div>
-            <span className="font-bold text-slate-800 text-lg">Caira</span>
-            <span className="text-xs font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full ml-1">
-              Testnet
-            </span>
-          </a>
-
-          {/* Kanan: nama + avatar (klik buka profile) */}
-          <button
-            onClick={() => setProfileOpen(true)}
-            className="flex items-center gap-2.5 hover:bg-slate-50 rounded-2xl px-3 py-1.5 transition group"
-            aria-label="Lihat profil"
-          >
-            <div className="hidden sm:flex flex-col items-end leading-tight">
-              <span className="text-sm font-semibold text-slate-800 group-hover:text-indigo-600 transition">
-                {auth.user.display_name}
-              </span>
-              <span className="text-xs text-slate-400 font-mono">
-                {shortWallet(auth.user.stellar_wallet)}
-              </span>
-            </div>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow shadow-indigo-200 ring-2 ring-white group-hover:ring-indigo-200 transition">
-              <span className="text-white font-bold text-sm select-none">
-                {initials}
-              </span>
-            </div>
-          </button>
-        </div>
-      </nav>
+          </nav>
 
       {/* ── Main content ───────────────────────────────────────────────────── */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
@@ -690,13 +698,13 @@ export default function DashboardPage() {
               Kelola invoice &amp; pembayaran Anda
             </p>
           </div>
-          <a
+          <Link
             href="/dashboard/new"
             className="flex items-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 active:from-indigo-800 active:to-purple-800 text-white font-bold py-2.5 px-5 rounded-xl transition text-sm shadow-lg shadow-indigo-200/60 shrink-0"
           >
             <PlusIcon />
             Buat Tagihan
-          </a>
+          </Link>
         </div>
 
         {/* ── Stats row ────────────────────────────────────────────────────── */}
@@ -796,13 +804,13 @@ export default function DashboardPage() {
                 Buat tagihan pertama Anda dan bagikan tautannya untuk mulai
                 menerima pembayaran Stellar.
               </p>
-              <a
+              <Link
                 href="/dashboard/new"
                 className="mt-6 flex items-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm shadow-lg shadow-indigo-200/60"
               >
                 <PlusIcon />
                 Buat Tagihan Pertama
-              </a>
+              </Link>
             </div>
           )}
 

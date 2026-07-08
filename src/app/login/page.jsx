@@ -8,6 +8,7 @@ import {
 } from "@stellar/freighter-api";
 import { api } from "../../lib/api";
 import { setAuth } from "../../lib/auth";
+import Link from "next/link";
 
 // ── Inline SVG icons ─────────────────────────────────────────────────────────
 
@@ -351,7 +352,7 @@ export default function LoginPage() {
               <InfoIcon />
               <p className="text-sm text-amber-800 leading-relaxed">
                 Freighter belum terpasang.{" "}
-                <a
+                <Link
                   href="https://freighter.app"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -359,7 +360,7 @@ export default function LoginPage() {
                 >
                   Pasang Freighter
                   <ExternalLinkIcon />
-                </a>{" "}
+                </Link>{" "}
                 lalu muat ulang halaman ini.
               </p>
             </div>
@@ -421,16 +422,16 @@ export default function LoginPage() {
         <div className="flex flex-col items-center gap-2.5 mt-5 text-sm">
           <p className="text-slate-500">
             Belum punya akun?{" "}
-            <a
+            <Link
               href="/register"
               className="text-indigo-600 font-semibold hover:underline"
             >
               Daftar di sini
-            </a>
+            </Link>
           </p>
           <p className="text-slate-400 text-xs">
             Tidak punya Freighter?{" "}
-            <a
+            <Link
               href="https://freighter.app"
               target="_blank"
               rel="noopener noreferrer"
@@ -438,7 +439,7 @@ export default function LoginPage() {
             >
               freighter.app
               <ExternalLinkIcon />
-            </a>
+            </Link>
           </p>
         </div>
       </div>
