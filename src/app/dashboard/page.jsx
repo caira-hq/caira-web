@@ -47,7 +47,7 @@ function formatXlm(val) {
 
 const PAY_BASE =
   typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:3000/pay`
+    ? `${window.location.protocol}//${window.location.hostname}/pay`
     : "http://localhost:3000/pay";
 
 // ── Inline SVG icons ──────────────────────────────────────────────────────────
