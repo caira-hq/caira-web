@@ -6,7 +6,7 @@ import { getAuth, addInvoice } from "../../../lib/auth";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const PAY_BASE = "http://localhost:3000/pay";
+const PAY_BASE = process.env.NEXT_PUBLIC_APP_URL+"/pay";
 
 function payUrl(code) {
   return `${PAY_BASE}/${code}`;
