@@ -48,10 +48,7 @@ function formatXlm(val) {
   });
 }
 
-const PAY_BASE =
-  typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}/pay`
-    : "http://localhost:3000/pay";
+const PAY_BASE = (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000") + "/pay";
 
 // ── Inline SVG icons ──────────────────────────────────────────────────────────
 
@@ -406,6 +403,7 @@ export default function DashboardPage() {
 
   async function handleCopy(code) {
     const url = `${PAY_BASE}/${code}`;
+    console.log("Copying URL:", url);
     try {
       await navigator.clipboard.writeText(url);
     } catch {

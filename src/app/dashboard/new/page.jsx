@@ -3,6 +3,7 @@
 import { useState, useEffect, useId } from "react";
 import { api } from "../../../lib/api";
 import { getAuth, addInvoice } from "../../../lib/auth";
+import Image from "next/image";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -384,9 +385,13 @@ export default function NewInvoicePage() {
               {/* Header */}
               <div className="mb-7">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow shadow-indigo-200">
-                    <span className="text-white font-black text-base select-none">C</span>
-                  </div>
+                  <Image 
+                    src="/logo.png" 
+                    alt="Caira Logo" 
+                    width={77} // Diubah dari 100 ke 36 agar muat di navbar
+                    height={77}
+                    className="object-contain"
+                  />
                   <div>
                     <h1 className="text-xl font-black text-slate-900 leading-tight">
                       Buat Tagihan
