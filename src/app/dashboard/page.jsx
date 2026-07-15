@@ -484,7 +484,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setProfileOpen(false)}
                 className="absolute top-4 right-4 text-white/70 hover:text-white transition"
-                aria-label="Tutup"
+                aria-label="Close"
               >
                 <svg
                   className="w-5 h-5"
@@ -509,7 +509,7 @@ export default function DashboardPage() {
               <h2 className="text-white font-bold text-lg leading-tight">
                 {auth.user.display_name}
               </h2>
-              <p className="text-indigo-200 text-xs mt-0.5">Merchant Caira</p>
+              <p className="text-indigo-200 text-xs mt-0.5">Caira Merchant</p>
             </div>
 
             {/* Body panel */}
@@ -530,14 +530,14 @@ export default function DashboardPage() {
                   }
                   className="mt-1.5 text-xs text-indigo-500 hover:text-indigo-700 font-medium transition"
                 >
-                  Salin alamat
+                  Copy address
                 </button>
               </div>
 
               {/* Network */}
               <div>
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                  Jaringan
+                  Network
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1.5 rounded-full">
@@ -553,7 +553,7 @@ export default function DashboardPage() {
               {/* Stats ringkas */}
               <div>
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                  Ringkasan Akun
+                  Account Summary
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-indigo-50 rounded-xl p-3 text-center">
@@ -561,21 +561,21 @@ export default function DashboardPage() {
                       {invoices.length}
                     </p>
                     <p className="text-xs text-indigo-400 mt-0.5">
-                      Total Invoice
+                      Total Invoices
                     </p>
                   </div>
                   <div className="bg-green-50 rounded-xl p-3 text-center">
                     <p className="text-xl font-black text-green-600">
                       {paidInvoices.length}
                     </p>
-                    <p className="text-xs text-green-400 mt-0.5">Lunas</p>
+                    <p className="text-xs text-green-400 mt-0.5">Paid</p>
                   </div>
                   <div className="col-span-2 bg-purple-50 rounded-xl p-3 text-center">
                     <p className="text-xl font-black text-purple-600">
                       {formatXlm(totalRevenue)} XLM
                     </p>
                     <p className="text-xs text-purple-400 mt-0.5">
-                      Total Pendapatan
+                      Total Revenue
                     </p>
                   </div>
                 </div>
@@ -602,7 +602,7 @@ export default function DashboardPage() {
                       d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Isi Saldo Testnet (gratis)
+                  Top Up Testnet (free)
                 </Link>
                 <Link
                   href="https://stellar.expert/explorer/testnet"
@@ -623,7 +623,7 @@ export default function DashboardPage() {
                       d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                     />
                   </svg>
-                  Lihat Transaksi di Explorer
+                  View Transactions in Explorer
                 </Link>
               </div>
             </div>
@@ -635,7 +635,7 @@ export default function DashboardPage() {
                 className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-red-500 hover:text-white hover:bg-red-500 border border-red-200 hover:border-red-500 rounded-xl py-2.5 transition"
               >
                 <LogoutIcon />
-                Keluar dari Caira
+                Log Out
               </button>
             </div>
           </aside>
@@ -664,7 +664,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setProfileOpen(true)}
                 className="flex items-center gap-2.5 hover:bg-slate-50 rounded-2xl px-3 py-1.5 transition group"
-                aria-label="Lihat profil"
+                aria-label="View profile"
               >
                 <div className="hidden sm:flex flex-col items-end leading-tight">
                   {/* Tambahkan optional chaining (?) untuk berjaga-jaga jika data user telat dimuat */}
@@ -693,7 +693,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-2xl font-black text-slate-900">Dashboard</h1>
             <p className="text-slate-500 text-sm mt-0.5">
-              Kelola invoice &amp; pembayaran Anda
+              Manage your invoices & payments
             </p>
           </div>
           <Link
@@ -701,7 +701,7 @@ export default function DashboardPage() {
             className="flex items-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 active:from-indigo-800 active:to-purple-800 text-white font-bold py-2.5 px-5 rounded-xl transition text-sm shadow-lg shadow-indigo-200/60 shrink-0"
           >
             <PlusIcon />
-            Buat Tagihan
+            Create Invoice
           </Link>
         </div>
 
@@ -732,7 +732,7 @@ export default function DashboardPage() {
                 {formatXlm(totalRevenue)}
               </p>
               <p className="text-xs text-slate-400 mt-0.5">
-                Dari tagihan lunas
+                From paid invoices
               </p>
             </div>
           </div>
@@ -748,7 +748,7 @@ export default function DashboardPage() {
                 {paidInvoices.length}
               </p>
               <p className="text-xs text-slate-400 mt-0.5">
-                Dari {invoices.length} tagihan
+                Out of {invoices.length} invoices
               </p>
             </div>
           </div>
@@ -758,9 +758,9 @@ export default function DashboardPage() {
         <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
           {/* Table header bar */}
           <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-3">
-            <h2 className="font-bold text-slate-800">Daftar Tagihan</h2>
+            <h2 className="font-bold text-slate-800">Invoices List</h2>
             <span className="text-xs text-slate-400 bg-slate-100 rounded-full px-2.5 py-0.5 font-medium">
-              {invoices.length} tagihan
+              {invoices.length} invoices
             </span>
           </div>
 
@@ -770,7 +770,7 @@ export default function DashboardPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50/70">
-                    {["Status", "Klien", "Jumlah", "Tanggal", "Aksi"].map(
+                    {["Status", "Client", "Amount", "Date", "Actions"].map(
                       (h) => (
                         <th
                           key={h}
@@ -796,18 +796,17 @@ export default function DashboardPage() {
             <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
               <FileIcon />
               <h3 className="mt-5 text-lg font-bold text-slate-700">
-                Belum ada tagihan
+                No invoices yet
               </h3>
               <p className="text-slate-400 text-sm mt-1.5 max-w-xs leading-relaxed">
-                Buat tagihan pertama Anda dan bagikan tautannya untuk mulai
-                menerima pembayaran Stellar.
+                Create your first invoice and share the link to start receiving Stellar payments.
               </p>
               <Link
                 href="/dashboard/new"
                 className="mt-6 flex items-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm shadow-lg shadow-indigo-200/60"
               >
                 <PlusIcon />
-                Buat Tagihan Pertama
+                Create First Invoice
               </Link>
             </div>
           )}
@@ -818,7 +817,7 @@ export default function DashboardPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50/70">
-                    {["Status", "Klien", "Jumlah", "Tanggal", "Aksi"].map(
+                    {["Status", "Client", "Amount", "Date", "Actions"].map(
                       (h) => (
                         <th
                           key={h}
@@ -846,12 +845,12 @@ export default function DashboardPage() {
                           {isPaid ? (
                             <span className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">
                               <span className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
-                              Lunas
+                              Paid
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full">
                               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 animate-pulse" />
-                              Menunggu
+                              Pending
                             </span>
                           )}
                         </td>
@@ -896,12 +895,12 @@ export default function DashboardPage() {
                               {isCopied ? (
                                 <>
                                   <CheckIcon className="w-3.5 h-3.5" />
-                                  Tersalin!
+                                  Copied!
                                 </>
                               ) : (
                                 <>
                                   <CopyIcon />
-                                  Salin Tautan
+                                  Copy Link
                                 </>
                               )}
                             </button>
@@ -922,7 +921,7 @@ export default function DashboardPage() {
                               ) : (
                                 <>
                                   <RefreshIcon />
-                                  Cek Bayar
+                                  Verify Payment
                                 </>
                               )}
                             </button>

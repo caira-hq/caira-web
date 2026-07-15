@@ -1,38 +1,38 @@
 # Caira Web ⚡
 
-Frontend aplikasi **Caira Pay** — platform payment gateway instan yang memungkinkan merchant membuat tagihan (invoice) dan menerima pembayaran secara langsung, aman, dan instan menggunakan aset **XLM** di jaringan **Stellar Blockchain**.
+Frontend application for **Caira Pay** — an instant payment gateway platform that lets merchants create invoices and receive payments directly, securely, and instantly using **XLM** assets on the **Stellar Blockchain** network.
 
-Dibangun menggunakan **Next.js 16** (App Router), **React 19**, **Tailwind CSS v4**, serta terintegrasi langsung dengan dompet digital **Freighter** melalui Freighter API v6 dan Stellar SDK v16.
+Built using **Next.js 16** (App Router), **React 19**, **Tailwind CSS v4**, and integrated directly with the **Freighter** digital wallet via the Freighter API v6 and Stellar SDK v16.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Key Features
 
-### Pendaftaran & Login Tanpa Password
-Merchant mendaftar dan masuk hanya dengan menghubungkan dompet digital Freighter mereka. Keamanan terjamin karena kunci privat tidak pernah meninggalkan dompet pengguna *(non-custodial)*.
+### Password-Free Registration & Login
+Merchants register and log in simply by connecting their Freighter digital wallet. Security is guaranteed because the private key never leaves the user's wallet *(non-custodial)*.
 
 ### Merchant Dashboard
-- Ringkasan total tagihan, total pendapatan (XLM), dan jumlah tagihan lunas.
-- Tabel interaktif daftar tagihan lengkap dengan status pembayaran (**Menunggu / Lunas**).
-- Fitur salin tautan pembayaran (Payment Link) dan verifikasi status pembayaran real-time langsung ke Stellar Testnet.
+- Summary of total invoices, total revenue (XLM), and number of paid invoices.
+- Interactive table listing invoices complete with payment status (**Pending / Paid**).
+- Copy payment link feature and real-time payment status verification directly against the Stellar Testnet.
 
-### Pembuatan Tagihan Mudah
-Form intuitif untuk membuat tagihan baru dengan menentukan nama klien, email klien, deskripsi proyek, dan nominal XLM (mendukung presisi hingga 7 angka di belakang desimal).
+### Easy Invoice Creation
+An intuitive form for creating a new invoice by specifying the client name, client email, project description, and XLM amount (supports precision up to 7 decimal places).
 
-### Checkout Pembayaran Instan (`/pay/[code]`)
-- Halaman checkout khusus bagi klien untuk menyelesaikan invoice.
-- Alur proses pembayaran yang dipandu langkah demi langkah:
-  **Hubungkan Dompet → Tanda Tangan → Kirim Pembayaran**
-- Penyelesaian transaksi hanya dalam **3–5 detik** dengan biaya transaksi kurang dari **1 sen USD** di jaringan Stellar.
+### Instant Payment Checkout (`/pay/[code]`)
+- A dedicated checkout page for clients to complete an invoice.
+- A step-by-step guided payment flow:
+  **Connect Wallet → Sign → Send Payment**
+- Transaction settlement in just **3–5 seconds** with transaction fees of less than **1 US cent** on the Stellar network.
 
 ---
 
-## 🛠️ Tech Stack & Dependensi
+## 🛠️ Tech Stack & Dependencies
 
-| Kategori | Teknologi |
+| Category | Technology |
 |---|---|
 | Framework | Next.js 16.2.9 (React Compiler) |
-| Library UI | React 19.2.4 & React DOM 19.2.4 |
+| UI Library | React 19.2.4 & React DOM 19.2.4 |
 | Styling | Tailwind CSS v4 (`@tailwindcss/postcss`) |
 | Freighter Wallet | `@stellar/freighter-api` v6.0.1 |
 | Stellar SDK | `@stellar/stellar-sdk` v16.0.1 |
@@ -41,123 +41,123 @@ Form intuitif untuk membuat tagihan baru dengan menentukan nama klien, email kli
 
 ---
 
-## 📂 Struktur Folder
+## 📂 Folder Structure
 
 ```
 caira-web/
-├── public/                 # Aset statis (SVG logo, ikon, dll.)
+├── public/                 # Static assets (SVG logo, icons, etc.)
 ├── src/
 │   ├── app/                # Next.js App Router Pages
-│   │   ├── globals.css     # Global CSS & Konfigurasi Tailwind CSS v4
-│   │   ├── layout.js       # Layout Utama (Font Geist, metadata antialiased)
-│   │   ├── page.js         # Landing Page Promosi Caira Pay
-│   │   ├── login/          # Halaman Login Merchant (Challenge-Response Signature)
-│   │   ├── register/       # Halaman Pendaftaran Merchant
-│   │   ├── dashboard/      # Panel Kontrol Merchant (Statistik & Tabel Invoice)
-│   │   │   └── new/        # Halaman Form Pembuatan Invoice Baru
-│   │   └── pay/[code]/     # Halaman Checkout Pembayaran Instan via Stellar
+│   │   ├── globals.css     # Global CSS & Tailwind CSS v4 configuration
+│   │   ├── layout.js       # Main layout (Geist font, antialiased metadata)
+│   │   ├── page.js         # Caira Pay promotional landing page
+│   │   ├── login/          # Merchant login page (Challenge-Response Signature)
+│   │   ├── register/       # Merchant registration page
+│   │   ├── dashboard/      # Merchant control panel (Statistics & Invoice Table)
+│   │   │   └── new/        # New invoice creation form page
+│   │   └── pay/[code]/     # Instant payment checkout page via Stellar
 │   └── lib/
-│       ├── api.js          # Wrapper fetch API terpusat dengan penanganan error
-│       └── auth.js         # Manajemen sesi autentikasi & cache invoice di LocalStorage
-├── eslint.config.mjs       # Konfigurasi ESLint 9 khusus Next.js
-├── jsconfig.json           # Konfigurasi path alias (@/*) untuk import bersih
-├── next.config.mjs         # Konfigurasi Next.js (dengan React Compiler diaktifkan)
-└── package.json            # Daftar script dan dependensi npm
+│       ├── api.js          # Centralized fetch API wrapper with error handling
+│       └── auth.js         # Authentication session management & invoice caching in LocalStorage
+├── eslint.config.mjs       # ESLint 9 configuration specific to Next.js
+├── jsconfig.json           # Path alias configuration (@/*) for clean imports
+├── next.config.mjs         # Next.js configuration (with React Compiler enabled)
+└── package.json            # List of npm scripts and dependencies
 ```
 
 ---
 
-## ⚙️ Persyaratan Sistem
+## ⚙️ System Requirements
 
-Sebelum menjalankan aplikasi, pastikan Anda telah menginstal dan menyiapkan:
+Before running the application, make sure you have installed and set up the following:
 
-- **Node.js** v22 atau yang lebih baru
-- **[Freighter Wallet Extension](https://www.freighter.app/)** terpasang di browser Anda
+- **Node.js** v22 or newer
+- **[Freighter Wallet Extension](https://www.freighter.app/)** installed in your browser
 
-> 💡 Pastikan Freighter diatur ke jaringan **Testnet** untuk keperluan pengujian.  
-> Saldo XLM Testnet gratis tersedia melalui **[Stellar Laboratory Account Creator](https://laboratory.stellar.org/#account-creator)**.
+> 💡 Make sure Freighter is set to the **Testnet** network for testing purposes.  
+> Free Testnet XLM balance is available via the **[Stellar Laboratory Account Creator](https://laboratory.stellar.org/#account-creator)**.
 
 ---
 
-## 🔧 Instalasi & Menjalankan Aplikasi
+## 🔧 Installation & Running the Application
 
-### 1. Clone repositori & install dependency
+### 1. Clone the repository & install dependencies
 
 ```bash
 cd caira-web
 npm install
 ```
 
-### 2. Konfigurasi environment variables
+### 2. Configure environment variables
 
-Buat file `.env` atau `.env.local` di root direktori `caira-web`:
+Create a `.env` or `.env.local` file in the root of the `caira-web` directory:
 
 ```env
-# Alamat URL Backend API Caira (default localhost:5000)
+# Caira Backend API URL (default localhost:5000)
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
-# Alamat URL Aplikasi Frontend ini (default localhost:3000)
+# This Frontend Application's URL (default localhost:3000)
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-# Kunci Rahasia Global (samakan dengan CAIRA_API_KEY di backend)
+# Global Secret Key (must match CAIRA_API_KEY on the backend)
 NEXT_PUBLIC_CAIRA_API_KEY=caira_hackathon_super_secret_2026
 ```
 
-> 🔑 **Catatan Keamanan:** Nilai `NEXT_PUBLIC_CAIRA_API_KEY` disisipkan otomatis sebagai header HTTP `x-api-key` pada setiap request ke backend untuk menghindari error `403 Forbidden`.
+> 🔑 **Security Note:** The value of `NEXT_PUBLIC_CAIRA_API_KEY` is automatically inserted as the `x-api-key` HTTP header on every request to the backend to avoid a `403 Forbidden` error.
 
-### 3. Jalankan development server
+### 3. Run the development server
 
 ```bash
 npm run dev
 ```
 
-Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Build untuk produksi
+### 4. Build for production
 
 ```bash
-# Build aplikasi dengan optimasi penuh
+# Build the application with full optimization
 npm run build
 
-# Jalankan server produksi hasil build
+# Run the built production server
 npm start
 ```
 
 ---
 
-## 🧭 Alur Penggunaan
+## 🧭 Usage Flow
 
-### 1. Merchant — Registrasi
+### 1. Merchant — Registration
 
-1. Buka halaman `/register` dan isi nama merchant/bisnis.
-2. Hubungkan dompet **Freighter** untuk mengasosiasikan akun dengan Stellar Public Key.
+1. Open the `/register` page and fill in the merchant/business name.
+2. Connect your **Freighter** wallet to associate the account with a Stellar Public Key.
 
 ### 2. Merchant — Login
 
-1. Buka `/login` dan klik **"Hubungkan & Masuk"**.
-2. Aplikasi meminta *challenge* unik dari server, lalu merchant menandatangani pesan di Freighter.
-3. Tanda tangan dikirim ke backend untuk verifikasi kriptografis → menghasilkan **JWT token** yang aman.
+1. Open `/login` and click **"Connect & Sign In"**.
+2. The application requests a unique *challenge* from the server, then the merchant signs the message in Freighter.
+3. The signature is sent to the backend for cryptographic verification → producing a secure **JWT token**.
 
-### 3. Merchant — Membuat Invoice
+### 3. Merchant — Creating an Invoice
 
-1. Buka `/dashboard/new` dan isi data klien serta nominal XLM.
-2. Klik **"Buat Tagihan"** — tautan pembayaran unik akan dibuat secara otomatis:
+1. Open `/dashboard/new` and fill in the client details and XLM amount.
+2. Click **"Create Invoice"** — a unique payment link will be generated automatically:
    ```
    http://localhost:3000/pay/[invoice_code]
    ```
 
-### 4. Klien — Pembayaran
+### 4. Client — Payment
 
-1. Klien membuka tautan pembayaran dan meninjau detail invoice.
-2. Klien menghubungkan dompet Freighter mereka.
-3. Klik **"Bayar Sekarang"** — transaksi diproses secara *peer-to-peer* langsung ke dompet merchant di Stellar Testnet.
+1. The client opens the payment link and reviews the invoice details.
+2. The client connects their Freighter wallet.
+3. Click **"Pay Now"** — the transaction is processed *peer-to-peer* directly to the merchant's wallet on the Stellar Testnet.
 
-### 5. Merchant — Verifikasi Pembayaran
+### 5. Merchant — Payment Verification
 
-Klik tombol **"Cek Bayar"** di `/dashboard` untuk meminta server memeriksa ledger Stellar secara real-time dan mengonfirmasi status pembayaran lunas.
+Click the **"Check Payment"** button on `/dashboard` to have the server check the Stellar ledger in real time and confirm that the payment status is paid.
 
 ---
 
-## 📄 Lisensi
+## 📄 License
 
-Proyek ini dilisensikan di bawah lisensi komersial internal Caira. Seluruh kontribusi eksternal harus mengikuti standar keamanan dan regulasi kepatuhan finansial yang ketat.
+This project is licensed under Caira's internal commercial license. All external contributions must comply with strict security standards and financial compliance regulations.

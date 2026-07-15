@@ -12,15 +12,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Caira Pay — Pembayaran Instan via Stellar",
+  title: "Caira Pay — Instant Payments via Stellar",
   description:
-    "Bayar tagihan bisnis secara instan, aman, dan transparan menggunakan jaringan Stellar blockchain.",
+    "Pay business invoices instantly, securely, and transparently using the Stellar blockchain network.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="id"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

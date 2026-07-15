@@ -128,14 +128,14 @@ function PartyIcon() {
 // ── Step indicator ────────────────────────────────────────────────────────────
 
 const STEP_INDEX = { form: 0, connecting: 1, connected: 2, registering: 2 };
-const STEP_LABELS = ["Nama", "Dompet", "Konfirmasi"];
+const STEP_LABELS = ["Name", "Wallet", "Confirm"];
 
 function StepIndicator({ step }) {
   const active = STEP_INDEX[step] ?? 0;
   return (
     <div
       className="flex items-center justify-center gap-1 mb-8"
-      aria-label="Langkah pendaftaran"
+      aria-label="Registration steps"
     >
       {STEP_LABELS.map((label, i) => {
         const done = i < active;
@@ -208,12 +208,12 @@ export default function RegisterPage() {
       }
       const { address, error: accessError } = await requestAccess();
       if (accessError) {
-        throw new Error(accessError.message ?? "Akses dompet ditolak.");
+        throw new Error(accessError.message ?? "Wallet access denied.");
       }
       setWalletPubKey(address);
       setStep("connected");
     } catch (err) {
-      setError(err.message || "Gagal menghubungkan dompet. Coba lagi.");
+      setError(err.message || "Failed to connect wallet. Please try again.");
       setStep("form");
     }
   }
@@ -229,7 +229,7 @@ export default function RegisterPage() {
       });
       setStep("success");
     } catch (err) {
-      setError(err.message || "Pendaftaran gagal. Silakan coba lagi.");
+      setError(err.message || "Registration failed. Please try again.");
       setStep("connected");
     }
   }
@@ -244,18 +244,17 @@ export default function RegisterPage() {
               <PartyIcon />
             </div>
             <h2 className="text-2xl font-black text-slate-900 mb-2">
-              Akun Berhasil Dibuat!
+              Account Created Successfully!
             </h2>
             <p className="text-slate-500 text-sm leading-relaxed mb-8">
-              Selamat datang di Caira,{" "}
-              <strong className="text-slate-700">{displayName}</strong>! Silakan
-              masuk untuk mulai menggunakan dashboard Anda.
+              Welcome to Caira, {" "}
+                            <strong className="text-slate-700">{displayName}</strong>! Please log in to start using your dashboard.
             </p>
             <Link
               href="/login"
               className="block w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition text-sm text-center shadow-lg shadow-indigo-200"
             >
-              Masuk Sekarang →
+              Log In Now →
             </Link>
           </div>
         </div>
@@ -277,10 +276,10 @@ export default function RegisterPage() {
               </span>
             </div>
             <h1 className="text-2xl font-black text-slate-900">
-              Daftar ke Caira
+              Sign Up for Caira
             </h1>
             <p className="text-sm text-slate-500 mt-1.5 text-center max-w-xs leading-relaxed">
-              Buat akun merchant dan mulai terima pembayaran Stellar
+              Create a merchant account and start accepting Stellar payments
             </p>
           </div>
 
@@ -300,16 +299,16 @@ export default function RegisterPage() {
             <div className="mb-5 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4">
               <InfoIcon />
               <p className="text-sm text-amber-800 leading-relaxed">
-                Freighter belum terpasang di browser Anda.{" "}
+                Freighter is not installed in your browser.
                 <a
                   href="https://freighter.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-semibold underline underline-offset-2"
                 >
-                  Pasang Freighter
+                  Install Freighter
                 </a>{" "}
-                lalu muat ulang halaman ini.
+                then reload this page.
               </p>
             </div>
           )}
@@ -320,7 +319,7 @@ export default function RegisterPage() {
               htmlFor="display-name"
               className="block text-sm font-semibold text-slate-700 mb-1.5"
             >
-              Nama Bisnis / Merchant
+              Business / Merchant Name
             </label>
             <input
               id="display-name"
@@ -336,7 +335,7 @@ export default function RegisterPage() {
                   handleConnectWallet();
                 }
               }}
-              placeholder="cth. Warung Kopi Bu Sari"
+              placeholder="e.g. Bu Sari's Coffee Shop"
               disabled={isBusy || step === "connected"}
               maxLength={64}
               className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed"
@@ -352,8 +351,8 @@ export default function RegisterPage() {
             >
               {step === "connecting" ? <Spinner /> : <WalletIcon />}
               {step === "connecting"
-                ? "Menghubungkan…"
-                : "Hubungkan Dompet Freighter"}
+                ? "Connecting..."
+                : "Connect Freighter Wallet"}
             </button>
           )}
 
@@ -365,7 +364,7 @@ export default function RegisterPage() {
                 <CheckCircleIcon className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
                 <div className="min-w-0">
                   <p className="text-xs font-semibold text-indigo-600 mb-1.5">
-                    Dompet terhubung
+                    Wallet connected
                   </p>
                   <code className="block text-xs text-slate-600 break-all font-mono leading-relaxed">
                     {walletPubKey}
@@ -381,7 +380,7 @@ export default function RegisterPage() {
                 onClick={handleRegister}
                 className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 active:from-indigo-800 active:to-purple-800 text-white font-bold py-3 px-5 rounded-xl transition text-sm shadow-lg shadow-indigo-200/60"
               >
-                Daftar Sekarang →
+                Sign Up Now →
               </button>
 
               {/* Re-connect with different wallet */}
@@ -393,7 +392,7 @@ export default function RegisterPage() {
                 }}
                 className="w-full text-center text-xs text-slate-400 hover:text-slate-600 py-1 transition"
               >
-                Gunakan dompet lain
+                Use a different wallet
               </button>
             </div>
           )}
@@ -401,12 +400,12 @@ export default function RegisterPage() {
 
         {/* Bottom link */}
         <p className="text-center text-sm text-slate-500 mt-5">
-          Sudah punya akun?{" "}
+          Already have an account? {" "}
           <Link
             href="/login"
             className="text-indigo-600 font-semibold hover:underline"
           >
-            Masuk di sini
+            Log in here
           </Link>
         </p>
       </div>

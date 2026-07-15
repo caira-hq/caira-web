@@ -134,16 +134,16 @@ function ExternalLinkIcon() {
 
 const STATUS_META = {
   idle: { label: null, step: -1 },
-  connecting: { label: "Menghubungkan dompet…", step: 0 },
-  signing: { label: "Menunggu tanda tangan di Freighter…", step: 1 },
-  verifying: { label: "Memverifikasi…", step: 2 },
+  connecting: { label: "Connecting wallet...", step: 0 },
+  signing: { label: "Waiting for signature in Freighter...", step: 1 },
+  verifying: { label: "Verifying...", step: 2 },
   error: { label: null, step: -1 },
 };
 
 const FLOW_STEPS = [
-  { key: "connecting", label: "Hubungkan" },
-  { key: "signing", label: "Tanda Tangan" },
-  { key: "verifying", label: "Verifikasi" },
+  { key: "connecting", label: "Connect" },
+  { key: "signing", label: "Sign" },
+  { key: "verifying", label: "Verify" },
 ];
 
 function FlowProgress({ status }) {
@@ -235,11 +235,11 @@ export default function LoginPage() {
 
       const { address, error: accessError } = await requestAccess();
       if (accessError) {
-        throw new Error(accessError.message ?? "Akses dompet ditolak.");
+        throw new Error(accessError.message ?? "Wallet access denied.");
       }
       walletPubKey = address;
     } catch (err) {
-      setError(err.message || "Gagal menghubungkan dompet. Coba lagi.");
+      setError(err.message || "Failed to connect wallet. Please try again.");
       setStatus("error");
       return;
     }
@@ -252,7 +252,7 @@ export default function LoginPage() {
       });
       challengeMessage = data.message;
     } catch (err) {
-      setError(err.message || "Gagal mendapatkan tantangan dari server.");
+      setError(err.message || "Failed to get challenge from server.");
       setStatus("error");
       return;
     }
@@ -269,13 +269,13 @@ export default function LoginPage() {
       });
 
       if (result.error) {
-        throw new Error(result.error.message ?? "Penandatanganan dibatalkan.");
+        throw new Error(result.error.message ?? "Signing cancelled.");
       }
 
       const { signedMessage } = result;
 
       if (!signedMessage) {
-        throw new Error("Tidak ada tanda tangan yang diterima dari Freighter.");
+        throw new Error("No signature received from Freighter.");
       }
 
       // signedMessage is a base64 string (v4 protocol) or Buffer-like (v3)
@@ -295,7 +295,7 @@ export default function LoginPage() {
         signature = btoa(String.fromCharCode(...bytes));
       }
     } catch (err) {
-      setError(err.message || "Penandatanganan gagal atau dibatalkan.");
+      setError(err.message || "Signing failed or cancelled.");
       setStatus("error");
       return;
     }
@@ -310,7 +310,7 @@ export default function LoginPage() {
       setAuth({ token: data.token, user: data.user });
       window.location.href = "/dashboard";
     } catch (err) {
-      setError(err.message || "Verifikasi gagal. Silakan coba lagi.");
+      setError(err.message || "Verification failed. Please try again.");
       setStatus("error");
     }
   }
@@ -335,11 +335,10 @@ export default function LoginPage() {
               </span>
             </div>
             <h1 className="text-2xl font-black text-slate-900">
-              Masuk ke Caira
+              Log In to Caira
             </h1>
             <p className="text-sm text-slate-500 mt-1.5 text-center max-w-xs leading-relaxed">
-              Login tidak memerlukan password. Cukup verifikasi dengan dompet
-              Stellar Anda.
+              No password required. Just verify with your Stellar wallet.
             </p>
           </div>
 
@@ -351,17 +350,17 @@ export default function LoginPage() {
             <div className="mb-5 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl p-4">
               <InfoIcon />
               <p className="text-sm text-amber-800 leading-relaxed">
-                Freighter belum terpasang.{" "}
+                Freighter is not installed.
                 <Link
                   href="https://freighter.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-semibold underline underline-offset-2"
                 >
-                  Pasang Freighter
+                  Install Freighter
                   <ExternalLinkIcon />
                 </Link>{" "}
-                lalu muat ulang halaman ini.
+                then reload this page.
               </p>
             </div>
           )}
@@ -372,7 +371,7 @@ export default function LoginPage() {
               <AlertIcon />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-red-700 mb-0.5">
-                  Terjadi kesalahan
+                  An error occurred
                 </p>
                 <p className="text-sm text-red-600 leading-relaxed">{error}</p>
               </div>
@@ -388,12 +387,12 @@ export default function LoginPage() {
               {status === "error" ? (
                 <>
                   <WalletIcon />
-                  Coba Lagi
+                  Try Again
                 </>
               ) : (
                 <>
                   <WalletIcon />
-                  Hubungkan &amp; Masuk dengan Freighter
+                  Connect & Log In with Freighter
                 </>
               )}
             </button>
@@ -401,7 +400,7 @@ export default function LoginPage() {
             /* Busy — show a muted loading card instead of a pressable button */
             <div className="w-full flex items-center justify-center gap-2.5 bg-indigo-50 border border-indigo-200 text-indigo-400 font-semibold py-3.5 px-5 rounded-xl text-sm cursor-not-allowed select-none">
               <Spinner />
-              Sedang memproses…
+              Processing...
             </div>
           )}
 
@@ -410,10 +409,9 @@ export default function LoginPage() {
             <ShieldIcon className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
             <p className="text-xs text-slate-500 leading-relaxed">
               <span className="font-semibold text-slate-600">
-                Aman &amp; tanpa password.
+                Secure & password-free.
               </span>{" "}
-              Kunci privat Anda tidak pernah meninggalkan dompet Freighter.
-              Caira hanya memverifikasi kepemilikan alamat Stellar.
+              Your private key never leaves Freighter. Caira only verifies ownership of your Stellar address.
             </p>
           </div>
         </div>
@@ -421,16 +419,16 @@ export default function LoginPage() {
         {/* Footer links */}
         <div className="flex flex-col items-center gap-2.5 mt-5 text-sm">
           <p className="text-slate-500">
-            Belum punya akun?{" "}
+            Don’t have an account? {" "}
             <Link
               href="/register"
               className="text-indigo-600 font-semibold hover:underline"
             >
-              Daftar di sini
+              Sign up here
             </Link>
           </p>
           <p className="text-slate-400 text-xs">
-            Tidak punya Freighter?{" "}
+            Don’t have Freighter? {" "}
             <Link
               href="https://freighter.app"
               target="_blank"

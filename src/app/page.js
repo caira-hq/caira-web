@@ -25,13 +25,13 @@ export default function Home() {
                 href="/login"
                 className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
               >
-                Masuk
+                Log In
               </Link>
               <Link
                 href="/register"
                 className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-xl transition-colors shadow-sm"
               >
-                Daftar Gratis
+                Sign Up Free
               </Link>
             </div>
             
@@ -42,21 +42,20 @@ export default function Home() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
           <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
-          Didukung oleh Stellar Network
+          Powered by Stellar Network
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl font-black text-slate-900 leading-tight max-w-xl mb-4">
-          Terima Pembayaran{" "}
+          Get Paid {" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-            Lebih Cepat
+            Faster
           </span>{" "}
-          dari Siapa Saja
+          by Anyone
         </h1>
         <p className="text-slate-500 text-lg max-w-md leading-relaxed mb-10">
-          Buat invoice dalam hitungan detik, bagikan tautannya, dan terima
-          pembayaran XLM langsung ke dompet Stellar Anda — tanpa biaya mahal,
-          tanpa perantara.
+          Create invoices in seconds, share the link, and receive XLM payments
+                    directly to your Stellar wallet — no expensive fees, no middlemen.
         </p>
 
         {/* CTAs */}
@@ -65,7 +64,7 @@ export default function Home() {
             href="/register"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-base hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200"
           >
-            Mulai Gratis
+            Get Started Free
             <svg
               className="w-4 h-4"
               fill="none"
@@ -84,7 +83,7 @@ export default function Home() {
             href="/login"
             className="inline-flex items-center justify-center px-6 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 font-semibold text-base hover:border-indigo-300 hover:text-indigo-600 transition-all"
           >
-            Sudah Punya Akun
+            Already Have an Account
           </Link>
         </div>
 
@@ -93,18 +92,18 @@ export default function Home() {
           {[
             {
               icon: "⚡",
-              title: "Instan",
-              desc: "Transaksi selesai dalam 3–5 detik di jaringan Stellar",
+              title: "Instant",
+              desc: "Transactions completed in 3–5 seconds on the Stellar network",
             },
             {
               icon: "🔒",
-              title: "Aman",
-              desc: "Kunci privat tidak pernah meninggalkan dompet Anda",
+              title: "Secure",
+              desc: "Private keys never leave your wallet",
             },
             {
               icon: "💸",
-              title: "Murah",
-              desc: "Biaya transaksi kurang dari 1 sen USD",
+              title: "Affordable",
+              desc: "Transaction fees under $0.01 USD",
             },
           ].map((f) => (
             <div
@@ -121,24 +120,24 @@ export default function Home() {
         {/* How it works */}
         <div className="mt-20 w-full max-w-2xl">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
-            Cara Kerja
+            How It Works
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             {[
               {
                 step: "1",
-                title: "Daftar",
-                desc: "Hubungkan dompet Freighter Anda ke Caira",
+                title: "Sign Up",
+                desc: "Connect your Freighter wallet to Caira",
               },
               {
                 step: "2",
-                title: "Buat Invoice",
-                desc: "Isi nama klien, deskripsi, dan jumlah XLM",
+                title: "Create Invoice",
+                desc: "Fill in client name, description, and XLM amount",
               },
               {
                 step: "3",
-                title: "Terima Bayaran",
-                desc: "Bagikan tautan — klien bayar langsung ke dompet Anda",
+                title: "Get Paid",
+                desc: "Share the link — clients pay directly to your wallet",
               },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center gap-2">
@@ -157,7 +156,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="text-center py-6 text-xs text-slate-400">
-        Caira © {new Date().getFullYear()} · Dibangun di atas{" "}
+        Caira © {new Date().getFullYear()} · Built on {" "}
         <a
           href="https://stellar.org"
           target="_blank"

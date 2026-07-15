@@ -187,7 +187,7 @@ export default function CheckoutPage({ params }) {
       .catch(() => {
         setStatus("error");
         setErrorMessage(
-          "Invoice tidak ditemukan atau sudah kedaluwarsa. Pastikan tautan yang Anda gunakan benar.",
+          "Invoice not found or has expired. Please ensure the link you are using is correct."
         );
       });
   }, [code]);
@@ -215,7 +215,7 @@ export default function CheckoutPage({ params }) {
         const { isAllowed: allowed } = await isAllowed();
         if (!allowed) await setAllowed();
         const { address, error: accessErr } = await requestAccess();
-        if (accessErr) throw new Error(accessErr.message ?? "Akses ditolak.");
+        if (accessErr) throw new Error(accessErr.message ?? "Access denied.");
         
         setWalletPubKey(address); 
         setStatus("ready");
@@ -311,8 +311,8 @@ export default function CheckoutPage({ params }) {
       const hint = error?.response?.data?.extras?.result_codes?.transaction;
       const msg =
         hint === "tx_insufficient_balance"
-          ? "Saldo XLM tidak mencukupi. Tambahkan saldo dan coba lagi."
-          : "Pembayaran dibatalkan atau gagal. Pastikan saldo XLM mencukupi.";
+          ? "Insufficient XLM balance. Please add funds and try again."
+          : "Payment cancelled or failed. Please ensure you have sufficient XLM balance.";
       alert(`⚠️ ${msg}`);
     }
   };
@@ -352,28 +352,27 @@ export default function CheckoutPage({ params }) {
           </div>
 
           <h2 className="text-2xl font-bold text-slate-800 mb-1">
-            Pembayaran Berhasil!
+            Payment Successful!
           </h2>
           <p className="text-slate-500 text-sm mb-6">
-            Terima kasih,{" "}
-            <strong className="text-slate-700">{invoice.client_name}</strong>.
-            Transaksi telah terkirim ke jaringan Stellar.
+            Thank you, {" "}
+                        <strong className="text-slate-700">{invoice.client_name}</strong>.
+                        Your transaction has been sent to the Stellar network.
           </p>
 
           <div className="bg-slate-50 rounded-2xl p-4 text-left mb-6">
-            <InfoRow label="Kepada" value={invoice.user.display_name} />
-            <InfoRow label="Jumlah" value={`${invoice.amount_xlm} XLM`} />
+            <InfoRow label="To" value={invoice.user.display_name} />
+            <InfoRow label="Amount" value={`${invoice.amount_xlm} XLM`} />
             <InfoRow label="Kode Invoice" value={invoice.invoice_code} mono />
           </div>
 
           <p className="text-xs text-slate-400 leading-relaxed">
-            Simpan kode invoice ini sebagai bukti pembayaran. Penjual akan
-            mengkonfirmasi penerimaan pembayaran dari dashboard mereka.
+            Save this invoice code as proof of payment. The seller will confirm receipt from their dashboard.
           </p>
         </div>
 
         <p className="text-xs text-slate-400 mt-6">
-          Diberdayakan oleh Stellar Network · Caira
+          Powered by Stellar Network · Caira
         </p>
       </div>
     );
@@ -398,7 +397,7 @@ export default function CheckoutPage({ params }) {
             <div className="absolute -bottom-10 -left-8 w-40 h-40 bg-white/5 rounded-full" />
 
             <p className="text-indigo-200 text-xs font-semibold uppercase tracking-widest mb-1 relative">
-              Total Tagihan
+              Total Due
             </p>
             <div className="text-5xl font-black text-white tracking-tight relative">
               {invoice.amount_xlm}
@@ -407,7 +406,7 @@ export default function CheckoutPage({ params }) {
               </span>
             </div>
             <p className="text-indigo-100 text-sm mt-2 relative">
-              Tagihan untuk{" "}
+              Invoice for {" "}
               <span className="font-semibold text-white">
                 {invoice.client_name}
               </span>
@@ -426,7 +425,7 @@ export default function CheckoutPage({ params }) {
                 }`}
               />
               <span className="text-xs font-semibold text-white">
-                {invoice.status === "PAID" ? "Lunas" : "Menunggu Pembayaran"}
+                {invoice.status === "PAID" ? "Paid" : "Pending Payment"}
               </span>
             </div>
           </div>
@@ -434,14 +433,14 @@ export default function CheckoutPage({ params }) {
           {/* Details */}
           <div className="px-6 pt-5 pb-2">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-              Detail Tagihan
+              Invoice Details
             </p>
-            <InfoRow label="Dari" value={invoice.user.display_name} />
+            <InfoRow label="From" value={invoice.user.display_name} />
             <InfoRow
-              label="Deskripsi"
-              value={invoice.description || "Pembayaran Jasa"}
+              label="Description"
+              value={invoice.description || "Service Payment"}
             />
-            <InfoRow label="Kode Invoice" value={invoice.invoice_code} mono />
+            <InfoRow label="Invoice Code" value={invoice.invoice_code} mono />
           </div>
 
           <div className="mx-6 my-3 border-t border-dashed border-slate-200" />
@@ -459,7 +458,7 @@ export default function CheckoutPage({ params }) {
                     </span>
                   </div>
                   <p className="text-xs text-indigo-400">
-                    Jangan tutup halaman ini
+                    Do not close this page
                   </p>
                 </div>
               </>
@@ -467,7 +466,7 @@ export default function CheckoutPage({ params }) {
               <div className="flex items-center justify-center gap-2 py-4 text-indigo-600">
                 <div className="w-5 h-5 border-2 border-t-indigo-600 border-indigo-200 rounded-full animate-spin" />
                 <span className="text-sm font-semibold">
-                  Menghubungkan dompet…
+                  Connecting wallet...
                 </span>
               </div>
             ) : status === "no_wallet" ? (
@@ -489,7 +488,7 @@ export default function CheckoutPage({ params }) {
                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                   />
                 </svg>
-                {isMobile ? "Hubungkan Dompet Albedo" : "Hubungkan Freighter"}
+                {isMobile ? "Connect Albedo Wallet" : "Connect Freighter"}
               </button>
             ) : (
               /* Step 2: Wallet connected, show Pay Now */
@@ -500,7 +499,7 @@ export default function CheckoutPage({ params }) {
                   <span className="text-xs text-emerald-700 font-medium flex-1 truncate">
                     {walletPubKey
                       ? `${walletPubKey.slice(0, 8)}…${walletPubKey.slice(-6)}`
-                      : "Terhubung"}
+                      : "Connected"}
                   </span>
                   <button
                     onClick={() => {
@@ -509,7 +508,7 @@ export default function CheckoutPage({ params }) {
                     }}
                     className="text-xs text-slate-400 hover:text-slate-600 transition-colors"
                   >
-                    Ganti
+                    Change
                   </button>
                 </div>
 
@@ -530,7 +529,7 @@ export default function CheckoutPage({ params }) {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  Bayar Sekarang
+                  Pay Now
                 </button>
               </div>
             )}
@@ -539,9 +538,9 @@ export default function CheckoutPage({ params }) {
             {(status === "no_wallet" || status === "ready") && (
               <div className="flex items-center justify-center gap-4 pt-1">
                 {[
-                  { icon: "🔒", label: "Terenkripsi" },
-                  { icon: "⚡", label: "Instan" },
-                  { icon: "🛡️", label: "Aman" },
+                  { icon: "🔒", label: "Encrypted" },
+                                    { icon: "⚡", label: "Instant" },
+                                    { icon: "🛡️", label: "Secure" },
                 ].map((b) => (
                   <div
                     key={b.label}
@@ -560,12 +559,10 @@ export default function CheckoutPage({ params }) {
         {!isMobile && status === "no_wallet" && (
           <div className="mt-4 bg-white/70 backdrop-blur rounded-2xl border border-slate-200 p-4">
             <p className="text-xs font-bold text-slate-600 mb-1 flex items-center gap-1.5">
-              💡 Belum punya Freighter?
+              Don’t have Freighter?
             </p>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Freighter adalah dompet digital gratis untuk Stellar. Pasang
-              ekstensinya di browser, buat akun, isi saldo XLM, lalu kembali ke
-              halaman ini.
+              Freighter is a free digital wallet for Stellar. Install the browser extension, create an account, add XLM funds, then return to this page.
             </p>
             <a
               href="https://freighter.app"
@@ -573,7 +570,7 @@ export default function CheckoutPage({ params }) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
             >
-              Pasang Freighter →
+              Install Freighter →
             </a>
           </div>
         )}
