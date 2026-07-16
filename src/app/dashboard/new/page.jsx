@@ -418,7 +418,7 @@ export default function NewInvoicePage() {
                   {/* Nama Klien */}
                   <div>
                     <Label htmlFor={nameId} required>
-                      Nama Klien
+                      Client Name
                     </Label>
                     <input
                       id={nameId}
@@ -426,7 +426,7 @@ export default function NewInvoicePage() {
                       type="text"
                       value={form.client_name}
                       onChange={handleChange}
-                      placeholder="Contoh: Budi Santoso"
+                      placeholder="Example: Budi Santoso"
                       autoComplete="off"
                       className={`${inputClass} ${errors.client_name ? "border-red-300 focus:ring-red-400" : ""}`}
                       aria-describedby={errors.client_name ? `${nameId}-err` : undefined}
@@ -442,7 +442,7 @@ export default function NewInvoicePage() {
                   {/* Email Klien */}
                   <div>
                     <Label htmlFor={emailId} required>
-                      Email Klien
+                      Client Email
                     </Label>
                     <input
                       id={emailId}
@@ -465,13 +465,13 @@ export default function NewInvoicePage() {
 
                   {/* Deskripsi Proyek */}
                   <div>
-                    <Label htmlFor={descId}>Deskripsi Proyek</Label>
+                    <Label htmlFor={descId}>Project Description</Label>
                     <textarea
                       id={descId}
                       name="description"
                       value={form.description}
                       onChange={handleChange}
-                      placeholder="Opsional — tuliskan detail pekerjaan atau proyek"
+                      placeholder="Optional — describe the project or work"
                       rows={3}
                       className={`${inputClass} resize-none`}
                     />
@@ -480,7 +480,7 @@ export default function NewInvoicePage() {
                   {/* Jumlah XLM */}
                   <div>
                     <Label htmlFor={amountId} required>
-                      Jumlah (XLM)
+                      Amount (XLM)
                     </Label>
                     <div className="relative">
                       <input
@@ -506,7 +506,7 @@ export default function NewInvoicePage() {
                       </p>
                     ) : (
                       <p id={`${amountId}-hint`} className="mt-1.5 text-xs text-slate-400">
-                        Minimal 0.0000001 XLM · Biaya jaringan Stellar sangat rendah
+                        Minimum 0.0000001 XLM · Stellar network fees are very low
                       </p>
                     )}
                   </div>
@@ -523,7 +523,7 @@ export default function NewInvoicePage() {
                     {submitting ? (
                       <>
                         <Spinner />
-                        Membuat tagihan…
+                        Creating invoice…
                       </>
                     ) : (
                       "Buat Tagihan"

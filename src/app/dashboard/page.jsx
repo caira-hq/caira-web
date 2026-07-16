@@ -717,7 +717,7 @@ export default function DashboardPage() {
               <p className="text-2xl font-black text-indigo-600 leading-tight">
                 {invoices.length}
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">Semua tagihan</p>
+              <p className="text-xs text-slate-400 mt-0.5">All Bills</p>
             </div>
           </div>
 
@@ -727,7 +727,7 @@ export default function DashboardPage() {
               <XlmIcon />
             </div>
             <div className="min-w-0">
-              <p className="text-xs text-slate-500">Total Pendapatan (XLM)</p>
+              <p className="text-xs text-slate-500">Total Revenue (XLM)</p>
               <p className="text-2xl font-black text-purple-600 leading-tight truncate">
                 {formatXlm(totalRevenue)}
               </p>
@@ -743,7 +743,7 @@ export default function DashboardPage() {
               <PaidIcon />
             </div>
             <div className="min-w-0">
-              <p className="text-xs text-slate-500">Sudah Lunas</p>
+              <p className="text-xs text-slate-500">Paid in Full</p>
               <p className="text-2xl font-black text-green-600 leading-tight">
                 {paidInvoices.length}
               </p>
